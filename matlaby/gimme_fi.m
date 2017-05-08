@@ -22,15 +22,18 @@ function [ FI ] = gimme_fi( q, t, rot, tra, drot, dtra )
     end
     % rotational drives
     for i=1:size(drot,2)
-        [ri, fi] = getbody(q, rot(1,drot{i}{2}));
-        [rj, fj] = getbody(q, rot(2,drot{i}{2}));
-        FI(n) = fi-fj + drot{i}{1}(t);
+        [~, fi] = getbody(q, rot(1,drot{i}{2}));
+        [~, fj] = getbody(q, rot(2,drot{i}{2}));
+        FI(n) = fj-fi - drot{i}{1}(t);
     end
     % translational drives
     for i=1:size(dtra,2)
-        [ri, fi] = getbody(q, rot(1,dtra{i}{2}));
-        [rj, fj] = getbody(q, rot(2,dtra{i}{2}));
-        FI(n) = fi-fj + drot{i}{1}(t);
+        [ri, fi] = getbody(q, tra(1,dtra{i}{2}));
+        [rj, fj] = getbody(q, tra(2,dtra{i}{2}));
+        sai = tra(3:4,i);
+        sbj = tra(5:6,i);
+        v = R(fj)*sbj-R(fi)*sai;
+        v = v/norm(v);
+        FI(n) = (rj + R(fj)*sbj - ri - R(fi)*sai)'*v - dtra{i}{1}(t);
     end 
-    %FI(9) = q(3)- (deg2rad(50))+(pi/4);  example 60deg -> q(8)/q(7) = tan(60) = sqrt(3)
 end
