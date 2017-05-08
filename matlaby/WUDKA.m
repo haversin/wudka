@@ -17,10 +17,19 @@ for i=1:size(bodies,2)
 end
 q0(1) = q0(1) + 0.05; % shake it
 
-Fi = @(q) gimme_fi(q, 0, rot, tra, drot, dtra); % closure
-Fi(q0);
-answer = fsolve(Fi,q0) % do magic
-check = Fi(answer);
+Fit = @(q, t) gimme_fi(q, t, rot, tra, drot, dtra); % closure
+
+% solve solve
+end_time = 1.0;
+n_steps = 100;
+step = end_time/(n_steps);
+
+for i=1:(n_steps+1)
+    time(i) = (i-1)*step;
+    Fi = @(q) Fit(q,time(i));
+    answer(:,i) = fsolve(Fi,q0); % do magic
+    %check = Fi(answer(:,i));
+end
 
 q8_by_q7 = answer(8)/answer(7); % example
 

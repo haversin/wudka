@@ -1,3 +1,3 @@
-function fi = serwo(t)
-    fi = deg2rad(15);
+function fi = ser(t)
+    fi = 1.1+t;
 end
