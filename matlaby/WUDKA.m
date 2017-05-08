@@ -3,7 +3,7 @@ bodies_in = fopen("dane/ciala.txt","r");  % [x y] TODO names and rotation
 const_rot_in = fopen("dane/wiezy_rot.txt","r"); % [body1 body2 point_name]
 const_tra_in = fopen("dane/wiezy_tra.txt","r"); % [body1 body2 body1_point_name body2_point_name]
 addpath('dane');
-
+% xdxd
 rehash path
 
 points = read_points(points_in); % key-value map
