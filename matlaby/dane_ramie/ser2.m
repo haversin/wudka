@@ -6,6 +6,6 @@ function [f df ddf] = ser2(t)
     phi = 0.1;
 
     f = l + a*sin(omega*t + phi);
-    df = acos(omega*t + phi) * omega;
-    ddf = -asin(omega*t + phi) * omega^2;    
+    df = a*cos(omega*t + phi) * omega;
+    ddf = -a*sin(omega*t + phi) * omega^2;    
 end
