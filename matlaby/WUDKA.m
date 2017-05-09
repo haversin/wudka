@@ -27,12 +27,17 @@ Ga_qdqt = @(q, dq, t) gimme_gamma(q, dq, t, rot, tra, drot, dtra);
 % solve solve
 [time, dis, vel, acc] = simulate(Fi_qt, Fiq_q, Fit_t, Ga_qdqt, q0, 1.0, 100);
 
+marker = @(name) get_marker(name, markers, dis, vel, acc);
+
 fclose(points_in);
 fclose(bodies_in);
 fclose(const_rot_in);
 if(const_tra_in > 0)
     fclose(const_tra_in);
 end
+if(markers_in > 0)
+    fclose(markers_in);
+end
 rmpath('dane');
 
-clear i ans bodies_in const_rot_in const_tra_in points_in;
+clear i ans bodies_in const_rot_in const_tra_in points_in markers_in;
