@@ -1,3 +1,3 @@
 function fi = ser(t)
-    fi = 1.1+t;
+    fi = sqrt(2);
 end

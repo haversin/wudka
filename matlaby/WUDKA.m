@@ -15,23 +15,41 @@ q0 = [];
 for i=1:size(bodies,2)
     q0 = [q0; bodies(:,i); 0]; % [x y 0]
 end
-q0(1) = q0(1) + 0.05; % shake it
+q0(1) = q0(1)+0.05; % shake it
 
-Fit = @(q, t) gimme_fi(q, t, rot, tra, drot, dtra); % closure
+%Fit = @(q, t) gimme_fi(q, t, rot, tra, drot, dtra); % closure
+Fi = @(q) gimme_fi(q, 0, rot, tra, drot, dtra); % closure
+Fiq = @(q) gimme_jacobi(q, rot, tra, drot, dtra);
 
 % solve solve
 end_time = 1.0;
 n_steps = 100;
-step = end_time/(n_steps);
+step = end_time/n_steps;
 
+time = zeros(1,n_steps);
+answer = zeros(9,n_steps);
+
+%dupa = fsolve(Fi,q0)
+dupa = ones(length(q0),1);
+q = q0;
+it = 0;
+while norm(dupa) > 1e-8 && it < 50
+    dupa = Fi(q);
+    jacobi = Fiq(q);
+    q = q - jacobi\dupa;
+    it = it + 1;
+end
+
+Fi(q)
+
+%{
 for i=1:(n_steps+1)
     time(i) = (i-1)*step;
     Fi = @(q) Fit(q,time(i));
     answer(:,i) = fsolve(Fi,q0); % do magic
     %check = Fi(answer(:,i));
 end
-
-q8_by_q7 = answer(8)/answer(7); % example
+%}
 
 fclose(points_in);
 fclose(bodies_in);
@@ -39,5 +57,4 @@ fclose(const_rot_in);
 if(const_tra_in > 0)
     fclose(const_tra_in);
 end
-
 rmpath('dane');
