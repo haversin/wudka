@@ -1,6 +1,7 @@
 function [ FI ] = gimme_fi( q, t, rot, tra, drot, dtra )
     % rotational constraints
     n = 1;
+    FI = zeros(length(q),1);
     for i=1:size(rot,2)
         [ri, fi] = getbody(q, rot(1,i));
         [rj, fj] = getbody(q, rot(2,i));
