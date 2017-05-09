@@ -48,6 +48,7 @@ function [ FIq ] = gimme_jacobi( q, rot, tra, drot, dtra )
         if(rot(2,drot{i}{2}) ~= 0)
             FIq(n,3*b2) = -1;
         end
+        n = n+1;
     end
     
     % translational drives
@@ -61,11 +62,14 @@ function [ FIq ] = gimme_jacobi( q, rot, tra, drot, dtra )
         u = R(fj)*sbj-R(fi)*sai;
         u = u/norm(u);
         
+        q1 = [-u', -(u)'*[0 -1;1 0]*R(fi)*sai];
+        q2 = [ (u)', -(u)'*[0 -1;1 0]*(rj-ri-R(fi)*sai)];
         if(b1 ~= 0)
-            FIq(n,3*b1-2:3*b1) = [-u', -(u)'*[0 -1;1 0]*R(fi)*sai];
+            FIq(n,3*b1-2:3*b1) = q1;
         end
         if(b2 ~= 0)
-            FIq(n,3*b2-2:3*b2) = [ (u)', -(u)'*[0 -1;1 0]*(rj-ri-R(fi)*sai)];
+            FIq(n,3*b2-2:3*b2) = q2; %[ (u)', -(u)'*[0 -1;1 0]*(rj-ri-R(fi)*sai)];
         end
+        n = n +1;
     end 
 end

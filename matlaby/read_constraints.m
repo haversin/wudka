@@ -11,6 +11,9 @@ function [ rot, tra, drot, dtra ] = read_constraints( file_rot, file_tra, points
             a(:) = textscan(file_rot, '%f %f %s %s\n', 1);
             
             v1 = [a{1} a{2}]';
+            if(size(v1,2) == 0)
+                break
+            end
             if(v1(1) == 0)
                 v2 = points(a{3}{1});
             else
@@ -38,6 +41,9 @@ function [ rot, tra, drot, dtra ] = read_constraints( file_rot, file_tra, points
         while ~feof(file_tra)
             b(:) = textscan(file_tra, '%f %f %s %s %s\n', 1);
             bod = [b{1} b{2}]';
+            if(size(bod,2) == 0)
+                break
+            end
             if(bod(1) == 0)
                 sai = points(b{3}{1});
             else
