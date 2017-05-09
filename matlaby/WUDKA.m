@@ -17,12 +17,14 @@ for i=1:size(bodies,2)
 end
 q0(1) = q0(1); % shake it
 
-Fi_qt = @(q, t) gimme_fi(q, t, rot, tra, drot, dtra); % closures
+% closures
+Fi_qt = @(q, t) gimme_fi(q, t, rot, tra, drot, dtra);
 Fiq_q = @(q) gimme_jacobi(q, rot, tra, drot, dtra);
 Fit_t = @(t) gimme_fit(0, t, rot, tra, drot, dtra);
+Ga_qdqt = @(q, dq, t) gimme_gamma(q, dq, t, rot, tra, drot, dtra);
 
 % solve solve
-[time, dis, vel] = simulate(Fi_qt, Fiq_q, Fit_t, q0, 1.0, 100);
+[time, dis, vel, acc] = simulate(Fi_qt, Fiq_q, Fit_t, Ga_qdqt, q0, 1.0, 100);
 
 fclose(points_in);
 fclose(bodies_in);

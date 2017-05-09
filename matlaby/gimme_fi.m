@@ -5,9 +5,9 @@ function [ FI ] = gimme_fi( q, t, rot, tra, drot, dtra )
     for i=1:size(rot,2)
         [ri, fi] = getbody(q, rot(1,i));
         [rj, fj] = getbody(q, rot(2,i));
-        v1 = ri + R(fi)*rot(3:4,i);
-        v2 = rj + R(fj)*rot(5:6,i);
-        FI(n:n+1,1) = v1 - v2;
+        sa = ri + R(fi)*rot(3:4,i);
+        sb = rj + R(fj)*rot(5:6,i);
+        FI(n:n+1,1) = sa - sb;
         n = n+2;
     end
     % translational constraints
@@ -26,6 +26,7 @@ function [ FI ] = gimme_fi( q, t, rot, tra, drot, dtra )
         [~, fi] = getbody(q, rot(1,drot{i}{2}));
         [~, fj] = getbody(q, rot(2,drot{i}{2}));
         FI(n) = fj-fi - drot{i}{1}(t);
+        n = n+1;
     end
     % translational drives
     for i=1:size(dtra,2)
@@ -36,5 +37,6 @@ function [ FI ] = gimme_fi( q, t, rot, tra, drot, dtra )
         v = R(fj)*sbj-R(fi)*sai;
         v = v/norm(v);
         FI(n) = (rj + R(fj)*sbj - ri - R(fi)*sai)'*v - dtra{i}{1}(t);
+        n = n+1;
     end 
 end
