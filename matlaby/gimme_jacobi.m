@@ -63,10 +63,10 @@ function [ FIq ] = gimme_jacobi( q, rot, tra, drot, dtra )
         u = u/norm(u);
         
         if(b1 ~= 0)
-            FIq(n,3*b1-2:3*b1) = [-(R(fj)*u)', -(R(fj)*u)'*[0 -1;1 0]*R(fi)*sai];
+            FIq(n,3*b1-2:3*b1) = [-u', -(u)'*[0 -1;1 0]*R(fi)*sai];
         end
         if(b2 ~= 0)
-            FIq(n,3*b2-2:3*b2) = [ (R(fj)*u)', -(R(fj)*u)'*[0 -1;1 0]*(rj-ri-R(fi)*sai)];
+            FIq(n,3*b2-2:3*b2) = [ (u)', -(u)'*[0 -1;1 0]*(rj-ri-R(fi)*sai)];
         end
     end 
 end

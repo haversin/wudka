@@ -15,13 +15,11 @@ q0 = [];
 for i=1:size(bodies,2)
     q0 = [q0; bodies(:,i); 0]; % [x y 0]
 end
-q0(1) = q0(1)+0.05; % shake it
+q0(1) = q0(1); % shake it
 
 Fi_qt = @(q, t) gimme_fi(q, t, rot, tra, drot, dtra); % closures
 Fiq_q = @(q) gimme_jacobi(q, rot, tra, drot, dtra);
 Fit_t = @(t) gimme_fit(0, t, rot, tra, drot, dtra);
-
-%dddd = Fit_t(1)
 
 % solve solve
 [time, dis, vel] = simulate(Fi_qt, Fiq_q, Fit_t, q0, 1.0, 100);
