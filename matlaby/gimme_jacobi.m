@@ -39,7 +39,6 @@ function [ FIq ] = gimme_jacobi( q, rot, tra, drot, dtra )
         n = n+2;
     end
     % rotational drives
-    
     for i=1:size(drot,2)
         b1 = rot(1,drot{i}{2});
         b2 = rot(2,drot{i}{2});
