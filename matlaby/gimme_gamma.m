@@ -20,7 +20,6 @@ function [ Ga ] = gimme_gamma( q, dq, t, rot, tra, drot, dtra )
         [drj, dfj] = getbody(dq, tra(2,i));
         vj = tra(7:8,i);
         sai = tra(3:4,i);
-        %sbj = tra(5:6,i);
         Ga(n,1) = (R(fj)*vj)' * (2*[0 -1; 1 0]*(drj-dri)*dfj + (rj-ri)*dfj*dfj - R(fi)*sai*(dfj-dfi).^2 );
         Ga(n+1,1) = 0;
         n = n+2;
@@ -35,12 +34,14 @@ function [ Ga ] = gimme_gamma( q, dq, t, rot, tra, drot, dtra )
     for i=1:size(dtra,2)
         [ri, fi] = getbody(q, tra(1,dtra{i}{2}));
         [rj, fj] = getbody(q, tra(2,dtra{i}{2}));
+        [dri, dfi] = getbody(dq, tra(1,dtra{i}{2}));
+        [drj, dfj] = getbody(dq, tra(2,dtra{i}{2}));
         sai = tra(3:4,i);
         sbj = tra(5:6,i);
         v = R(fj)*sbj-R(fi)*sai;
         v = v/norm(v);
         [~,~,ddf] = dtra{i}{1}(t);
-        Ga(n,1) = v' * (2*[0 -1; 1 0]*(drj-dri)*dfj + (rj-ri)*dfj*dfj - R(fi)*sai*(dfj-dfi).^2 ) + ddf;
+        Ga(n,1) = (v)' * (2*[0 -1; 1 0]*(drj-dri)*dfj + (rj-ri)*dfj.^2 - R(fi)*sai*(dfj-dfi).^2 ) + ddf;
         n = n+1;
     end 
 end

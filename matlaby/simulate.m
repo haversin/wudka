@@ -8,9 +8,7 @@ function [ time, dis, vel, acc ] = simulate( Fi_qt, Fiq_q, Fit_t, Ga_qdqt, q0, e
     for i=1:(n_steps+1)
         Fi_q = @(q) Fi_qt(q,time(i));
         dis(:,i) = newtonify(Fi_q, Fiq_q, q0); % do magic
-        %Fit_t(time(i))'
         vel(:,i) = -Fiq_q(dis(:,i))\Fit_t(time(i));
         acc(:,i) = Fiq_q(dis(:,i))\Ga_qdqt(dis(:,i), vel(:,i), time(i));
     end
-    %dis = answer;
 end

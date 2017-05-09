@@ -49,6 +49,7 @@ function [ rot, tra, drot, dtra ] = read_constraints( file_rot, file_tra, points
                 sbj = points(b{4}{1}) - bodies(:,bod(2));
             end
             vj = [0, -1; 1, 0]*(points(b{4}{1}) - points(b{3}{1}));
+            %vj = vj/norm(vj);
             tra(:,itra) = [bod; sai; sbj; vj; 0];
             
             if(regexp(b{5}{1},"^[a-z].*.m$") == 1)
