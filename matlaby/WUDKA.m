@@ -30,6 +30,8 @@ Ga_qdqt = @(q, dq, t) gimme_gamma(q, dq, t, rot, tra, drot, dtra);
 [time, dis, vel, acc] = simulate(Fi_qt, Fiq_q, Fit_t, Ga_qdqt, q0, 0.6, 100);
 marker = @(name) get_marker(name, markers, dis, vel, acc);
 
+duupa = strcat(data_dir,'aaaaa')
+
 % cleanup
 fclose(points_in);
 fclose(bodies_in);
