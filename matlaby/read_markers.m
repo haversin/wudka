@@ -2,7 +2,7 @@ function [ markers ] = read_markers( file, points, bodies )
     n = 1;
     if(file > 0)
         while ~feof(file)
-            a(:) = textscan(file, "%s %s %f %f\n", 1);
+            a(:) = textscan(file, '%s %s %f %f\n', 1);
             k(n) = a{1};
             if(a{3} == 0)
                 u = [0;0];
