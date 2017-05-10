@@ -59,11 +59,12 @@ end
 %}
 
 
-c1 = marker('c6');
-c2 = marker('c8');
-%c3 = marker('c3');
-%{
-plot(c1(1,:), c1(2,:), c2(1,:), c2(2,:));%, c3(1,:), c3(2,:));
-axis([0 0.25 -0.5 -0.25]);
+m1 = marker('mP');
+m2 = marker('mF');
+m3 = marker('mG');
+m4 = marker('c2');
+
+plot(m1(1,:),m1(2,:), m2(1,:),m2(2,:), m3(1,:), m3(2,:), m4(1,:), m4(2,:));
+axis equal
 grid on
-%}
+
