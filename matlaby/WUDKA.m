@@ -45,3 +45,10 @@ clear i ans bodies_in const_rot_in const_tra_in points_in markers_in data_dir;
 
 % DONE
 % now do sth ...
+
+% get info about K
+% [first last]
+% [x;y;fi; dx;dy;dfi; ddx;ddy;ddfi]
+[mdis, mvel, macc] = marker('mK'); infoK = [mdis(1:2,1) mdis(1:2,end); mvel(1:2,1) mvel(1:2,end); macc(1:2,1) macc(1:2,end)]
+
+try_anim(dis, marker, 2.0);
