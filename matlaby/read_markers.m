@@ -4,7 +4,13 @@ function [ markers ] = read_markers( file, points, bodies )
         while ~feof(file)
             a(:) = textscan(file, "%s %s %f %f\n", 1);
             k(n) = a{1};
-            v{:,n} = [a{3}; points(a{2}{1}) - bodies(a{3}); a{4}]; % [body_id; s]
+            if(a{3} == 0)
+                u = [0;0];
+            else
+                u = bodies(a{3});
+            end
+            dupa = [a{3}; points(a{2}{1}) - u; a{4}]; % [body_id; s]
+            v{:,n} = dupa;
             n = n + 1;
         end
     end
@@ -14,6 +20,5 @@ function [ markers ] = read_markers( file, points, bodies )
         n = n+1;
     end
     markers = containers.Map(k,v);
-    %markers = containers.Map(k,v);
 end
 

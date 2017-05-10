@@ -27,7 +27,7 @@ Ga_qdqt = @(q, dq, t) gimme_gamma(q, dq, t, rot, tra, drot, dtra);
 
 % solve solve
 
-[time, dis, vel, acc] = simulate(Fi_qt, Fiq_q, Fit_t, Ga_qdqt, q0, 0.7, 100);
+[time, dis, vel, acc] = simulate(Fi_qt, Fiq_q, Fit_t, Ga_qdqt, q0, 0.6, 100);
 marker = @(name) get_marker(name, markers, dis, vel, acc);
 
 
@@ -62,7 +62,8 @@ end
 c1 = marker('c6');
 c2 = marker('c8');
 %c3 = marker('c3');
-
+%{
 plot(c1(1,:), c1(2,:), c2(1,:), c2(2,:));%, c3(1,:), c3(2,:));
 axis([0 0.25 -0.5 -0.25]);
 grid on
+%}
