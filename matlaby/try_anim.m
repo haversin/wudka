@@ -29,7 +29,7 @@ function [  ] = try_anim( dis, marker, time )
         clf
         wizu_hav(wizuQ, wizuV);
         if(j == 1)
-            pause(4.0); % start delay
+            pause(2.0); % start delay
         else
             pause(sleep_time);
         end
