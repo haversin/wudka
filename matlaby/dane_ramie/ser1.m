@@ -1,7 +1,6 @@
 function [f df ddf] = ser1(t)
-
-    l = sqrt(17)/5 - 0.02; 
-    a = -0.3;
+    l = sqrt(26)/5 - 0.02; 
+    a = -0.7;
     omega = 0.8;
     phi = 0.1;
 

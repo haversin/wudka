@@ -1,4 +1,4 @@
-data_dir = 'dane';
+data_dir = 'dane_ramie';
 points_in = fopen(strcat(data_dir,'/punkty.txt'),'r'); % [name x y]
 bodies_in = fopen(strcat(data_dir,'/ciala.txt'),'r');  % [x y] TODO names and rotation
 const_rot_in = fopen(strcat(data_dir,'/wiezy_rot.txt'),'r'); % [body1 body2 point_name]
@@ -27,17 +27,16 @@ Ga_qdqt = @(q, dq, t) gimme_gamma(q, dq, t, rot, tra, drot, dtra);
 
 % solve solve
 
-[time, dis, vel, acc] = simulate(Fi_qt, Fiq_q, Fit_t, Ga_qdqt, q0, 1.0, 100);
+[time, dis, vel, acc] = simulate(Fi_qt, Fiq_q, Fit_t, Ga_qdqt, q0, 0.6, 100);
 marker = @(name) get_marker(name, markers, dis, vel, acc);
 
-%{
-ntime = linspace(0,20);
-yy1 = dtra{1}{1}(ntime')';
-yy2 = dtra{2}{1}(ntime')';
-yy = [yy1;yy2]
-plot(ntime,yy);
+%ntime = linspace(0,1.0);
+yy1 = dtra{1}{1}(time);
+yy2 = dtra{2}{1}(time);
+sery = [yy1;yy2];
+plot(time,sery);
 grid on
-%}
+
 
 % cleanup
 fclose(points_in);
