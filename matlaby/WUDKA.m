@@ -3,7 +3,7 @@ points_in = fopen(strcat(data_dir,'/punkty.txt'),"r"); % [name x y]
 bodies_in = fopen(strcat(data_dir,'/ciala.txt'),"r");  % [x y] TODO names and rotation
 const_rot_in = fopen(strcat(data_dir,'/wiezy_rot.txt'),"r"); % [body1 body2 point_name]
 const_tra_in = fopen(strcat(data_dir,'/wiezy_tra.txt'),"r"); % [body1 body2 body1_point_name body2_point_name]
-markers_in = fopen(strcat(data_dir,'/markery.txt',"r"); % [marker_name point_name body_id angle_offset]
+markers_in = fopen(strcat(data_dir,'/markery.txt'),"r"); % [marker_name point_name body_id angle_offset]
 addpath('dane');
 % xdxd
 rehash path
