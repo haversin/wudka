@@ -4,7 +4,7 @@ bodies_in = fopen(strcat(data_dir,'/ciala.txt'),'r');  % [x y] TODO names and ro
 const_rot_in = fopen(strcat(data_dir,'/wiezy_rot.txt'),'r'); % [body1 body2 point_name]
 const_tra_in = fopen(strcat(data_dir,'/wiezy_tra.txt'),'r'); % [body1 body2 body1_point_name body2_point_name]
 markers_in = fopen(strcat(data_dir,'/markery.txt'),'r'); % [marker_name point_name body_id angle_offset]
-addpath('dane');
+addpath(data_dir);
 % xdxd
 rehash path
 
@@ -30,7 +30,6 @@ Ga_qdqt = @(q, dq, t) gimme_gamma(q, dq, t, rot, tra, drot, dtra);
 [time, dis, vel, acc] = simulate(Fi_qt, Fiq_q, Fit_t, Ga_qdqt, q0, 0.6, 100);
 marker = @(name) get_marker(name, markers, dis, vel, acc);
 
-
 % cleanup
 fclose(points_in);
 fclose(bodies_in);
@@ -41,7 +40,7 @@ end
 if(markers_in > 0)
     fclose(markers_in);
 end
-rmpath('dane');
+rmpath(data_dir);
 clear i ans bodies_in const_rot_in const_tra_in points_in markers_in data_dir;
 
 % DONE
