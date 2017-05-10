@@ -1,4 +1,4 @@
-data_dir = 'dane_ramie';
+data_dir = 'dane';
 points_in = fopen(strcat(data_dir,'/punkty.txt'),'r'); % [name x y]
 bodies_in = fopen(strcat(data_dir,'/ciala.txt'),'r');  % [x y] TODO names and rotation
 const_rot_in = fopen(strcat(data_dir,'/wiezy_rot.txt'),'r'); % [body1 body2 point_name]
@@ -7,9 +7,6 @@ markers_in = fopen(strcat(data_dir,'/markery.txt'),'r'); % [marker_name point_na
 addpath(data_dir);
 % xdxd
 rehash path
-
-pwd
-strcat(data_dir,'/punkty.txt')
 
 points = read_points(points_in); % key-value map
 bodies = read_bodies(bodies_in); % column-vectors
@@ -30,8 +27,17 @@ Ga_qdqt = @(q, dq, t) gimme_gamma(q, dq, t, rot, tra, drot, dtra);
 
 % solve solve
 
-[time, dis, vel, acc] = simulate(Fi_qt, Fiq_q, Fit_t, Ga_qdqt, q0, 0.6, 100);
+[time, dis, vel, acc] = simulate(Fi_qt, Fiq_q, Fit_t, Ga_qdqt, q0, 1.0, 100);
 marker = @(name) get_marker(name, markers, dis, vel, acc);
+
+%{
+ntime = linspace(0,20);
+yy1 = dtra{1}{1}(ntime')';
+yy2 = dtra{2}{1}(ntime')';
+yy = [yy1;yy2]
+plot(ntime,yy);
+grid on
+%}
 
 % cleanup
 fclose(points_in);
@@ -60,7 +66,7 @@ for i=1:size(jakk,1)
 end
 %}
 
-
+%{
 m1 = marker('mP');
 m2 = marker('mF');
 m3 = marker('mG');
@@ -69,4 +75,8 @@ m4 = marker('c2');
 plot(m1(1,:),m1(2,:), m2(1,:),m2(2,:), m3(1,:), m3(2,:), m4(1,:), m4(2,:));
 axis equal
 grid on
+%}
 
+%disc6 = marker('c6');
+
+%plot(time, disc6(1,:))
