@@ -8,6 +8,9 @@ addpath(data_dir);
 % xdxd
 rehash path
 
+pwd
+strcat(data_dir,'/punkty.txt')
+
 points = read_points(points_in); % key-value map
 bodies = read_bodies(bodies_in); % column-vectors
 markers = read_markers(markers_in, points, bodies); % key-value map
@@ -29,8 +32,6 @@ Ga_qdqt = @(q, dq, t) gimme_gamma(q, dq, t, rot, tra, drot, dtra);
 
 [time, dis, vel, acc] = simulate(Fi_qt, Fiq_q, Fit_t, Ga_qdqt, q0, 0.6, 100);
 marker = @(name) get_marker(name, markers, dis, vel, acc);
-
-duupa = strcat(data_dir,'aaaaa')
 
 % cleanup
 fclose(points_in);
