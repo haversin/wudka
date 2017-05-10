@@ -26,7 +26,7 @@ function [ rot, tra, drot, dtra ] = read_constraints( file_rot, file_tra, points
             end
             rot(:,irot) = [v1; v2; v3];
             
-            if(regexp(a{4}{1},"^[a-z].*.m$") == 1)
+            if(regexp(a{4}{1},'^[a-z].*.m$') == 1)
                 drot{idrot} = {str2func(a{4}{1}(1:end-2)), irot} ;
                 idrot = idrot+1;
             end
@@ -58,7 +58,7 @@ function [ rot, tra, drot, dtra ] = read_constraints( file_rot, file_tra, points
             %vj = vj/norm(vj);
             tra(:,itra) = [bod; sai; sbj; vj; 0];
             
-            if(regexp(b{5}{1},"^[a-z].*.m$") == 1)
+            if(regexp(b{5}{1},'^[a-z].*.m$') == 1)
                 dtra{idtra} = {str2func(b{5}{1}(1:end-2)), itra} ;
                 idtra = idtra+1;
             end
