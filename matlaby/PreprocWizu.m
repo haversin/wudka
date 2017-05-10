@@ -14,3 +14,5 @@ for i=1:size(wizuM,2)
     v = mdisp(:,1)';
     wizuV(i,1:2) = v(1,1:2);
 end
+
+wizuV = wizuV';

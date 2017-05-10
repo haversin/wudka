@@ -7,7 +7,7 @@ function [ markers ] = read_markers( file, points, bodies )
             if(a{3} == 0)
                 u = [0;0];
             else
-                u = bodies(a{3});
+                u = bodies(:,a{3});
             end
             dupa = [a{3}; points(a{2}{1}) - u; a{4}]; % [body_id; s]
             v{:,n} = dupa;

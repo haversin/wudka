@@ -30,14 +30,6 @@ Ga_qdqt = @(q, dq, t) gimme_gamma(q, dq, t, rot, tra, drot, dtra);
 [time, dis, vel, acc] = simulate(Fi_qt, Fiq_q, Fit_t, Ga_qdqt, q0, 0.6, 100);
 marker = @(name) get_marker(name, markers, dis, vel, acc);
 
-%ntime = linspace(0,1.0);
-yy1 = dtra{1}{1}(time);
-yy2 = dtra{2}{1}(time);
-sery = [yy1;yy2];
-plot(time,sery);
-grid on
-
-
 % cleanup
 fclose(points_in);
 fclose(bodies_in);
@@ -53,29 +45,3 @@ clear i ans bodies_in const_rot_in const_tra_in points_in markers_in data_dir;
 
 % DONE
 % now do sth ...
-
-%{
-%check jacobi 
-jakk = Fiq_q(q0*1.02);
-normw = zeros(size(jakk,1),1);
-normk = zeros(size(jakk,2),1);
-for i=1:size(jakk,1)
-    normw(i) = norm(jakk(i,:));
-    normk(i) = norm(jakk(:,i));
-end
-%}
-
-%{
-m1 = marker('mP');
-m2 = marker('mF');
-m3 = marker('mG');
-m4 = marker('c2');
-
-plot(m1(1,:),m1(2,:), m2(1,:),m2(2,:), m3(1,:), m3(2,:), m4(1,:), m4(2,:));
-axis equal
-grid on
-%}
-
-%disc6 = marker('c6');
-
-%plot(time, disc6(1,:))
