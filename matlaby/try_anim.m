@@ -31,7 +31,7 @@ function [  ] = try_anim( dis, marker, time )
         if(j == 1)
             pause(2.0); % start delay
         else
-            pause(sleep_time);
+            pause(0.001);
         end
     end
 end

@@ -1,4 +1,4 @@
-data_dir = 'dane_ramie';
+data_dir = 'dane_xdxd';
 points_in = fopen(strcat(data_dir,'/punkty.txt'),'r'); % [name x y]
 bodies_in = fopen(strcat(data_dir,'/ciala.txt'),'r');  % [x y] TODO names and rotation
 const_rot_in = fopen(strcat(data_dir,'/wiezy_rot.txt'),'r'); % [body1 body2 point_name]
@@ -27,7 +27,7 @@ Ga_qdqt = @(q, dq, t) gimme_gamma(q, dq, t, rot, tra, drot, dtra);
 
 % solve solve
 
-[time, dis, vel, acc] = simulate(Fi_qt, Fiq_q, Fit_t, Ga_qdqt, q0, 0.6, 100);
+[time, dis, vel, acc] = simulate(Fi_qt, Fiq_q, Fit_t, Ga_qdqt, q0, 4.0, 400);
 marker = @(name) get_marker(name, markers, dis, vel, acc);
 
 % cleanup
@@ -48,7 +48,7 @@ clear i ans bodies_in const_rot_in const_tra_in points_in markers_in data_dir;
 
 % get info about K
 % [first last]
-% [x;y;fi; dx;dy;dfi; ddx;ddy;ddfi]
-[mdis, mvel, macc] = marker('mK'); infoK = [mdis(1:2,1) mdis(1:2,end); mvel(1:2,1) mvel(1:2,end); macc(1:2,1) macc(1:2,end)]
+% [x;y; dx;dy; ddx;ddy]
+[mdis, mvel, macc] = marker('mK'); infoB = [mdis(1:2,1) mdis(1:2,end); mvel(1:2,1) mvel(1:2,end); macc(1:2,1) macc(1:2,end)]
 
-try_anim(dis, marker, 2.0);
+%try_anim(dis, marker, 2.0);
