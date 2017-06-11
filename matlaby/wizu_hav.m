@@ -22,7 +22,8 @@ x3 = [v(1, 1) v(1, 3) v(1, 1) v(1, 5); v(1, 4) v(1, 5) v(1, 2) v(1, 4); v(1, 13)
 y3 = [v(2, 1) v(2, 3) v(2, 1) v(2, 5); v(2, 4) v(2, 5) v(2, 2) v(2, 4); v(2, 13) v(2, 6) v(2, 9) v(2, 10)];
 
 patch(x3,y3,C([1 3 4 10],:,:), 'FaceAlpha',.4)
-axis equal
+axis([-0.5 2 -1.5 1.0]);
+pbaspect([1 1 1]);
 grid on
 
 % RYSOWANIE CZWOROKĄTA C2
