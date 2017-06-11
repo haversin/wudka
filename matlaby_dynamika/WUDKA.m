@@ -1,23 +1,34 @@
-data_dir = 'dane_xdxd';
+data_dir = 'dane_easy';
 points_in = fopen(strcat(data_dir,'/punkty.txt'),'r'); % [name x y]
 bodies_in = fopen(strcat(data_dir,'/ciala.txt'),'r');  % [x y] TODO names and rotation
 const_rot_in = fopen(strcat(data_dir,'/wiezy_rot.txt'),'r'); % [body1 body2 point_name]
 const_tra_in = fopen(strcat(data_dir,'/wiezy_tra.txt'),'r'); % [body1 body2 body1_point_name body2_point_name]
 markers_in = fopen(strcat(data_dir,'/markery.txt'),'r'); % [marker_name point_name body_id angle_offset]
+forces_in = fopen(strcat(data_dir,'/sily.txt'),'r'); % [point_name body_id function_file]
 addpath(data_dir);
 % xdxd
 rehash path
 
 points = read_points(points_in); % key-value map
-bodies = read_bodies(bodies_in); % column-vectors
+[bodies, bodies_mass] = read_bodies(bodies_in); % column-vectors
 markers = read_markers(markers_in, points, bodies); % key-value map
 
-[rot, tra, drot, dtra] = read_constraints(const_rot_in, const_tra_in, points, bodies); % more to do
+[rot, tra, sdtra] = read_constraints(const_rot_in, const_tra_in, points, bodies); % more to do
+forces = read_forces(forces_in, points, bodies);
 
 q0 = [];
 for i=1:size(bodies,2)
     q0 = [q0; bodies(:,i) + [0;0]; 0]; % [x y 0]
 end
+dq0 = zeros(size(q0,1),1);
+
+Q_qdq = @(q, dq) gimme_qiu(q, dq, mass_matrix(bodies_mass), [0; -9.81], forces, tra, sdtra);
+Fiq_q = @(q) gimme_jacobi(q, rot, tra);
+
+Q_qdq(q0,dq0);
+
+% from kinematics
+%{
 
 % closures
 Fi_qt = @(q, t) gimme_fi(q, t, rot, tra, drot, dtra);
@@ -51,4 +62,6 @@ clear i ans bodies_in const_rot_in const_tra_in points_in markers_in data_dir;
 % [x;y; dx;dy; ddx;ddy]
 [mdis, mvel, macc] = marker('mK'); infoB = [mdis(1:2,1) mdis(1:2,end); mvel(1:2,1) mvel(1:2,end); macc(1:2,1) macc(1:2,end)]
 
-%try_anim(dis, marker, 2.0);
+try_anim(dis, marker, 2.0);
+
+%}

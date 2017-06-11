@@ -1,7 +1,7 @@
-function [ Ga ] = gimme_gamma( q, dq, t, rot, tra, drot, dtra )
+function [ Ga ] = gimme_gamma( q, dq, t, rot, tra)
     % rotational constraints
     n = 1;
-    Ga = zeros(length(q),1);
+    %Ga = zeros(length(q),1);
     for i=1:size(rot,2)
         [~, fi] = getbody(q, rot(1,i));
         [~, fj] = getbody(q, rot(2,i));
@@ -24,24 +24,4 @@ function [ Ga ] = gimme_gamma( q, dq, t, rot, tra, drot, dtra )
         Ga(n+1,1) = 0;
         n = n+2;
     end
-    % rotational drives
-    for i=1:size(drot,2)
-        [~,~,ddf] = dtra{i}{1}(t);
-        Ga(n,1) = -ddf;
-        n = n+1;
-    end
-    % translational drives
-    for i=1:size(dtra,2)
-        [ri, fi] = getbody(q, tra(1,dtra{i}{2}));
-        [rj, fj] = getbody(q, tra(2,dtra{i}{2}));
-        [dri, dfi] = getbody(dq, tra(1,dtra{i}{2}));
-        [drj, dfj] = getbody(dq, tra(2,dtra{i}{2}));
-        sai = tra(3:4,i);
-        sbj = tra(5:6,i);
-        v = R(fj)*sbj-R(fi)*sai;
-        v = v/norm(v);
-        [~,~,ddf] = dtra{i}{1}(t);
-        Ga(n,1) = (v)' * (2*[0 -1; 1 0]*(drj-dri)*dfj + (rj-ri)*dfj.^2 - R(fi)*sai*(dfj-dfi).^2 ) + ddf;
-        n = n+1;
-    end 
 end
