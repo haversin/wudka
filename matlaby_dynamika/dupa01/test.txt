@@ -1,0 +1,5 @@
+1 2 A
+2 3 B serwo.m
+3 4 C dupa
+2 3 C
+4 2 B dupa.m
