@@ -22,10 +22,14 @@ for i=1:size(bodies,2)
 end
 dq0 = zeros(size(q0,1),1);
 
-Q_qdq = @(q, dq) gimme_qiu(q, dq, mass_matrix(bodies_mass), [0; -9.81], forces, tra, sdtra);
+Mass = mass_matrix(bodies_mass);
+Q_qdq = @(q, dq) gimme_qiu(q, dq, Mass, [0; -9.81], forces, tra, sdtra);
 Fiq_q = @(q) gimme_jacobi(q, rot, tra);
+Ga_qdq = @(q, dq) gimme_gamma(q, dq, rot, tra);
 
 Q_qdq(q0,dq0);
+
+[time, dis, vel, acc] = simulate(Mass, Q_qdq, Fiq_q, Ga_qdq, q0, 4.0, 400);
 
 % from kinematics
 %{
