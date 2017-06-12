@@ -3,7 +3,7 @@ function [ forces ] = read_forces( file_forces, points, bodies )
     forces = {};
     if(file_forces > 0)
         while ~feof(file_forces)
-            a(:) = textscan(file_forces, '%f %s %s\n', 1)
+            a(:) = textscan(file_forces, '%f %s %s\n', 1);
             
             if(regexp(a{3}{1},'^[a-z].*.m$') == 1)
                 p = a{2};

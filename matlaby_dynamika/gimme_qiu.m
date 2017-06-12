@@ -14,7 +14,7 @@ function [ Qiu ] = gimme_qiu( q, dq, Mass, grav, forces, tra, sdtra )
         ibody = forces{i}{1};
         s = forces{i}{2};
         %F = [1;0]; % TODO !!!!!!!!!! forces{i}{3}
-        F = forces{i}{3}()
+        F = forces{i}{3}();
         [~, fi] = getbody(q, ibody);
         Qiu_F(3*ibody-2:3*ibody,1) = [eye(2); ([0 -1;1 0]*R(fi)*s)']*F;
     end
@@ -26,9 +26,9 @@ function [ Qiu ] = gimme_qiu( q, dq, Mass, grav, forces, tra, sdtra )
         b2 = tra(2,sdtra{i}{1});
         [ri, fi] = getbody(q, b1);
         [rj, fj] = getbody(q, b2);
-        sai = tra(3:4,i);
-        sbj = tra(5:6,i);
-        u = R(fj)*sbj-R(fi)*sai;
+        sai = tra(3:4,sdtra{i}{1});
+        sbj = tra(5:6,sdtra{i}{1});
+        u = rj+R(fj)*sbj-ri-R(fi)*sai;
         u = u/norm(u);
         d0 = sdtra{i}{4};
         k = sdtra{i}{2}; % check
@@ -41,9 +41,11 @@ function [ Qiu ] = gimme_qiu( q, dq, Mass, grav, forces, tra, sdtra )
         dd = u'*(vb - va);
         F = k*(d-d0) + c*dd;
         
-        Qiu_F(3*b1-2:3*b1,1) = [eye(2); ([0 -1;1 0]*R(fi)*sai)']*(u*F);
-        Qiu_F(3*b2-2:3*b2,1) = [eye(2); ([0 -1;1 0]*R(fj)*sbj)']*(-u*F);
+        Qiu_C(3*b1-2:3*b1,1) = [eye(2); ([0 -1;1 0]*R(fi)*sai)']*(u*F);
+        Qiu_C(3*b2-2:3*b2,1) = [eye(2); ([0 -1;1 0]*R(fj)*sbj)']*(-u*F);
     end
     
-    Qiu = Qiu_G + Qiu_F + Qiu_C;
+    Qiu = Qiu_G;
+    Qiu = Qiu + Qiu_F;
+    Qiu = Qiu + Qiu_C;
 end
