@@ -1,4 +1,4 @@
-data_dir = 'dane_veryeasy';
+data_dir = 'dane_veryspring';
 points_in = fopen(strcat(data_dir,'/punkty.txt'),'r'); % [name x y]
 bodies_in = fopen(strcat(data_dir,'/ciala.txt'),'r');  % [x y] TODO names and rotation
 const_rot_in = fopen(strcat(data_dir,'/wiezy_rot.txt'),'r'); % [body1 body2 point_name]
@@ -23,14 +23,14 @@ end
 dq0 = zeros(size(q0,1),1);
 
 Mass = mass_matrix(bodies_mass);
-Q_qdq = @(q, dq) gimme_qiu(q, dq, Mass, [0; -9.81], forces, tra, sdtra);
+Q_qdq = @(q, dq) gimme_qiu(q, dq, Mass, [0; -9.80665], forces, tra, sdtra);
 Fi_q = @(q) gimme_fi(q, rot, tra);
 Fiq_q = @(q) gimme_jacobi(q, rot, tra);
 Ga_qdq = @(q, dq) gimme_gamma(q, dq, rot, tra);
 
 integrateme = @(t, y) gimme_integralee(y, Mass, Fi_q, Fiq_q, Q_qdq, Ga_qdq);
 
-[time, dis, vel, acc] = odesim(integrateme, q0, dq0, 10.0);
+[time, dis, vel, acc] = odesim(integrateme, q0, dq0, 5.0);
 marker = @(name) get_marker(name, markers, dis, vel, acc);
 
 %[time, dis, vel, acc] = simulate(Mass, Q_qdq, Fiq_q, Ga_qdq, q0, 10.0, 1000);
@@ -54,7 +54,9 @@ marker = @(name) get_marker(name, markers, dis, vel, acc);
 % cleanup
 fclose(points_in);
 fclose(bodies_in);
-fclose(const_rot_in);
+if(const_rot_in > 0)
+    fclose(const_rot_in);
+end
 if(const_tra_in > 0)
     fclose(const_tra_in);
 end
