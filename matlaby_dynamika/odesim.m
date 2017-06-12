@@ -10,7 +10,9 @@ function [ time, dis, vel, acc ] = odesim( integralee, q0, dq0, end_time )
     %}
     n = size(q0,1);
     y0 = [q0;dq0];
-    [t,y] = ode45(integralee,[0,end_time],y0);
+    
+    opts = odeset('RelTol',1e-6);
+    [t,y] = ode45(integralee,[0,end_time],y0, opts);
     
     steps = size(t,1);
     time = t';

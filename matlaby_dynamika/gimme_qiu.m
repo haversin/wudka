@@ -40,9 +40,12 @@ function [ Qiu ] = gimme_qiu( q, dq, Mass, grav, forces, tra, sdtra )
         vb = vj + [0 -1;1 0]*R(fj)*sbj*wj;
         dd = u'*(vb - va);
         F = k*(d-d0) + c*dd;
-        
-        Qiu_C(3*b1-2:3*b1,1) = [eye(2); ([0 -1;1 0]*R(fi)*sai)']*(u*F);
-        Qiu_C(3*b2-2:3*b2,1) = [eye(2); ([0 -1;1 0]*R(fj)*sbj)']*(-u*F);
+        if(b1 ~= 0)
+            Qiu_C(3*b1-2:3*b1,1) = [eye(2); ([0 -1;1 0]*R(fi)*sai)']*(u*F);
+        end
+        if(b2 ~= 0)
+            Qiu_C(3*b2-2:3*b2,1) = [eye(2); ([0 -1;1 0]*R(fj)*sbj)']*(-u*F);
+        end
     end
     
     Qiu = Qiu_G;

@@ -17,8 +17,8 @@ function [ FI ] = gimme_fi( q, rot, tra)
         vj = tra(7:8,i);
         sai = tra(3:4,i);
         sbj = tra(5:6,i);
-        FI(n) = (R(fj)*vj)'*(rj-ri-R(fi)*sai) + vj'*sbj;
-        FI(n+1) = fi - fj;
+        FI(n,1) = (R(fj)*vj)'*(rj-ri-R(fi)*sai) + vj'*sbj;
+        FI(n+1,1) = fi - fj;
         n = n+2;
     end
 end
