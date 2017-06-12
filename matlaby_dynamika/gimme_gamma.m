@@ -1,4 +1,4 @@
-function [ Ga ] = gimme_gamma( q, dq, t, rot, tra)
+function [ Ga ] = gimme_gamma( q, dq, rot, tra)
     % rotational constraints
     n = 1;
     %Ga = zeros(length(q),1);
