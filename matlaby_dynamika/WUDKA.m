@@ -1,4 +1,4 @@
-data_dir = 'dane_veryspring';
+data_dir = 'dane_xdxdyn';
 points_in = fopen(strcat(data_dir,'/punkty.txt'),'r'); % [name x y]
 bodies_in = fopen(strcat(data_dir,'/ciala.txt'),'r');  % [x y] TODO names and rotation
 const_rot_in = fopen(strcat(data_dir,'/wiezy_rot.txt'),'r'); % [body1 body2 point_name]
@@ -23,18 +23,18 @@ end
 dq0 = zeros(size(q0,1),1);
 
 Mass = mass_matrix(bodies_mass);
-Q_qdq = @(q, dq) gimme_qiu(q, dq, Mass, [0; -9.80665], forces, tra, sdtra);
+grav = [0; -9.80665];
+%grav = [10; -10]/sqrt(2);
+%grav = [0;0];
+Q_qdq = @(q, dq) gimme_qiu(q, dq, Mass, grav, forces, tra, sdtra);
 Fi_q = @(q) gimme_fi(q, rot, tra);
 Fiq_q = @(q) gimme_jacobi(q, rot, tra);
 Ga_qdq = @(q, dq) gimme_gamma(q, dq, rot, tra);
 
 integrateme = @(t, y) gimme_integralee(y, Mass, Fi_q, Fiq_q, Q_qdq, Ga_qdq);
-
 [time, dis, vel, acc] = odesim(integrateme, q0, dq0, 5.0);
-marker = @(name) get_marker(name, markers, dis, vel, acc);
-
 %[time, dis, vel, acc] = simulate(Mass, Q_qdq, Fiq_q, Ga_qdq, q0, 10.0, 1000);
-
+marker = @(name) get_marker(name, markers, dis, vel, acc);
 
 % from kinematics
 %{
@@ -63,8 +63,11 @@ end
 if(markers_in > 0)
     fclose(markers_in);
 end
+if(forces_in > 0)
+    fclose(forces_in);
+end
 rmpath(data_dir);
-clear i ans bodies_in const_rot_in const_tra_in points_in markers_in data_dir;
+clear i ans bodies_in const_rot_in const_tra_in points_in markers_in forces_in data_dir;
 
 % DONE
 % now do sth ...
